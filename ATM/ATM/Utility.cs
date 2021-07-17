@@ -7,7 +7,7 @@ namespace ATM
     public static class Utility
     {
         //Ask for input, Check for valid inputs, print messages, formatting
-        public static Int64 GetValidIntInput()
+        public static Int64 GetValidIntInput(string input)
         {
             string rawInput;
             bool valid = false;
@@ -15,7 +15,7 @@ namespace ATM
 
             while(!valid)
             {
-                rawInput = GetRawInput();
+                rawInput = GetRawInput(input);
                 valid = Int64.TryParse(rawInput, out userSelection);
                 if(!valid)
                 {
@@ -25,10 +25,17 @@ namespace ATM
             return userSelection;
         }
 
-        public static string GetRawInput()
+        public static string GetRawInput(string message)
         {
-            Console.Write("Enter your option: ");
+            Console.Write($"Enter {message}: ");
             return Console.ReadLine();
+        }
+
+        public static void PrintMessage(string msg)
+        {
+            Console.WriteLine(msg);
+            Console.WriteLine("\nPress any key to continue");
+            Console.ReadKey();
         }
     }
 }

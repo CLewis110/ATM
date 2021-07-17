@@ -1,9 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel;
 
 namespace ATM
 {
+
+    public enum SecureMenu
+    {
+        CheckBalance = 1,
+        MakeDeposit = 2,
+        MakeWithdrawl = 3,
+        ThirdPartyTransfer = 4,
+        ViewTransactions = 5,
+        Logout = 6
+    }
     public static class ATMMenu
     {
         //Display various menus

@@ -8,6 +8,7 @@ namespace ATM
         {
             BankATM fakeBank = new BankATM();
 
+            fakeBank.Initialization();
             fakeBank.Execute();
         }
     }
