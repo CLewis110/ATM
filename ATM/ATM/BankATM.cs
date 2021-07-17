@@ -8,12 +8,26 @@ namespace ATM
     {
         //Hub for login, transactions, displaying menus
         public void Execute()
-        {
+        {                
+            ATMMenu.DisplayMenu1();
+
+            //Check for valid input, and execute command
             while(true)
             {
-                ATMMenu.DisplayMenu1();
-                break;
+                switch(Utility.GetValidIntInput())
+                {
+                    case 1:
+                        Console.WriteLine("Menu 2");
+                        break;
+                    case 2:
+                        Console.WriteLine("Thank you for your money.");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid number entered.");
+                        break;
+                }
             }
+
         }
     }
 }
