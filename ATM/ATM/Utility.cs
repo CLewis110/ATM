@@ -25,6 +25,24 @@ namespace ATM
             return userSelection;
         }
 
+        public static decimal GetValidDecimalInput(string input)
+        {
+            string rawInput;
+            bool valid = false;
+            decimal userSelection = 0;
+
+            while (!valid)
+            {
+                rawInput = GetRawInput(input);
+                valid = decimal.TryParse(rawInput, out userSelection);
+                if (!valid)
+                {
+                    Console.WriteLine("Invalid number.");
+                }
+            }
+            return userSelection;
+        }
+
         public static string GetRawInput(string message)
         {
             Console.Write($"Enter {message}: ");

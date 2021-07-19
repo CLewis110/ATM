@@ -31,8 +31,10 @@ namespace ATM
                             switch(Utility.GetValidIntInput("your option"))
                             {
                                 case (int)SecureMenu.CheckBalance:
+                                    CheckBalance(selectedAccount);
                                     break;
                                 case (int)SecureMenu.MakeDeposit:
+                                    MakeDeposit(selectedAccount);
                                     break;
                                 case (int)SecureMenu.MakeWithdrawl:
                                     break;
@@ -58,6 +60,14 @@ namespace ATM
                 }
             }
 
+        }
+
+        public void MakeDeposit(BankAccount selectedAccount)
+        {
+            decimal amountToDeposit = 0;
+            amountToDeposit = Utility.GetValidDecimalInput("amount to deposit");
+            selectedAccount.Balance += amountToDeposit;
+            Utility.PrintMessage($"{amountToDeposit} has been deposited into your account.");
         }
 
         //Check card number and pin
@@ -125,16 +135,14 @@ namespace ATM
                 new BankAccount() {UserName = "Kaityln Kaiterson", AccountNumber = 0987654321, CardNumber = 321, PinNumber = 2222, Balance = 26}
             };
         }
-        private static decimal ReturnBalance()
+        public void CheckBalance(BankAccount bankAccount)
         {
-            return 0;
+            Utility.PrintMessage($"Your bank account balance is: {bankAccount.Balance}");
         }
 
-        private static void NotifyAccountLocked()
+        public void NotifyAccountLocked()
         {
-            Console.Clear();
-            Console.WriteLine("Account locked. Police are on the way. Please stay where you are.");
-            Console.ReadKey();
+            Utility.PrintMessage("Your account has been locked.  Police are on the way.  Please stay where you are.");
             System.Environment.Exit(1);
         }
     }
