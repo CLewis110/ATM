@@ -6,6 +6,7 @@ namespace ATM
 {
     public static class Utility
     {
+
         //Ask for input, Check for valid inputs, print messages, formatting
         public static Int64 GetValidIntInput(string input)
         {
@@ -54,6 +55,11 @@ namespace ATM
             Console.WriteLine(msg);
             Console.WriteLine("\nPress any key to continue");
             Console.ReadKey();
+        }
+
+        public static string FormatAmount(decimal amt)
+        {
+            return "$" + String.Format("{0:0.00}", amt);
         }
     }
 }

@@ -12,6 +12,8 @@ namespace ATM
         private const int maxTries = 3;
         private static int tries = 0;
 
+        private static decimal transaction_amount;
+
         public void Execute()
         {                
             ATMMenu.DisplayMenu1();
@@ -37,6 +39,7 @@ namespace ATM
                                     MakeDeposit(selectedAccount);
                                     break;
                                 case (int)SecureMenu.MakeWithdrawl:
+                                    MakeWithdrawl(selectedAccount);
                                     break;
                                 case (int)SecureMenu.ThirdPartyTransfer:
                                     break;
@@ -62,12 +65,53 @@ namespace ATM
 
         }
 
-        public void MakeDeposit(BankAccount selectedAccount)
+        public void MakeWithdrawl(BankAccount selectedAccount)
         {
-            decimal amountToDeposit = 0;
-            amountToDeposit = Utility.GetValidDecimalInput("amount to deposit");
-            selectedAccount.Balance += amountToDeposit;
-            Utility.PrintMessage($"{amountToDeposit} has been deposited into your account.");
+            //Ask how much money user would like to withdrawl
+            transaction_amount = Utility.GetValidDecimalInput("amount to withdrawl");
+            //Check if desired withdrawl is a valid amount
+            if(transaction_amount <= 0)
+            {
+                Utility.PrintMessage("Not a valid amount.  Please try again");
+            }
+            else
+            {
+                //Check if money is available in account
+                if(transaction_amount > selectedAccount.Balance)
+                {
+                    Utility.PrintMessage("Insufficient funds.");
+                }
+                else
+                {
+                    //TODO: Create transaction record
+
+                    //Subtract money from account
+                    selectedAccount.Balance -= transaction_amount;
+
+                    //Dispense money
+                    //Message saying here's your money
+                    Utility.PrintMessage($"Please collect your money.  You have successfully withdrawn {Utility.FormatAmount(transaction_amount)}");
+                }
+
+            }
+        }
+
+        public void MakeDeposit(BankAccount account)
+        {
+            transaction_amount = Utility.GetValidDecimalInput("amount to deposit");
+
+            //TODO: Check if amountToDeposit is a valid number
+            if(transaction_amount <= 0)
+            {
+                Utility.PrintMessage("Amount must be more than zero.  Please try again.");
+            }
+            else 
+            {
+                //TODO: Create transaction record
+
+                account.Balance += transaction_amount;
+                Utility.PrintMessage($"{Utility.FormatAmount(transaction_amount)} has been deposited into your account.");
+            }
         }
 
         //Check card number and pin
@@ -137,7 +181,7 @@ namespace ATM
         }
         public void CheckBalance(BankAccount bankAccount)
         {
-            Utility.PrintMessage($"Your bank account balance is: {bankAccount.Balance}");
+            Utility.PrintMessage($"Your bank account balance is: {Utility.FormatAmount(bankAccount.Balance)}");
         }
 
         public void NotifyAccountLocked()
