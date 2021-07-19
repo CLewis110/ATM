@@ -39,7 +39,7 @@ namespace ATM
                                     MakeDeposit(selectedAccount);
                                     break;
                                 case (int)SecureMenu.MakeWithdrawl:
-                                    MakeWithdrawl(selectedAccount);
+                                    MakeWithdrawal(selectedAccount);
                                     break;
                                 case (int)SecureMenu.ThirdPartyTransfer:
                                     break;
@@ -65,10 +65,10 @@ namespace ATM
 
         }
 
-        public void MakeWithdrawl(BankAccount selectedAccount)
+        public void MakeWithdrawal(BankAccount selectedAccount)
         {
             //Ask how much money user would like to withdrawl
-            transaction_amount = Utility.GetValidDecimalInput("amount to withdrawl");
+            transaction_amount = Utility.GetValidDecimalInput("amount to withdrawal");
             //Check if desired withdrawl is a valid amount
             if(transaction_amount <= 0)
             {
