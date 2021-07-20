@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ATM
 {
-    class BankATM
+    class BankATM : IBalance
     {
         //Hub for login, transactions, displaying menus
         private static List<BankAccount> _accountList;
@@ -13,6 +13,7 @@ namespace ATM
         private static int tries = 0;
 
         private static decimal transaction_amount;
+        private static List<Transaction> _transactionList;
 
         public void Execute()
         {                
@@ -83,8 +84,18 @@ namespace ATM
                 }
                 else
                 {
-                    //TODO: Create transaction record
+                    //Create transaction record
+                    var newTransaction = new Transaction()
+                    {
+                        BankAccountNoFrom = selectedAccount.AccountNumber,
+                        BankAccountNoTo = selectedAccount.AccountNumber,
+                        TransactionDate = DateTime.Now,
+                        TransactionAmount = transaction_amount,
+                        TypeOfTransaction = Transaction.TransactionType.Withdrawal
+                        
+                    };
 
+                    InsertTransaction(newTransaction);
                     //Subtract money from account
                     selectedAccount.Balance -= transaction_amount;
 
@@ -107,7 +118,17 @@ namespace ATM
             }
             else 
             {
-                //TODO: Create transaction record
+                //Create transaction record
+                var newTransaction = new Transaction()
+                {
+                    BankAccountNoFrom = selectedAccount.AccountNumber,
+                    BankAccountNoTo = selectedAccount.AccountNumber,
+                    TransactionDate = DateTime.Now,
+                    TransactionAmount = transaction_amount,
+                    TypeOfTransaction = Transaction.TransactionType.Deposit
+                };
+
+                InsertTransaction(newTransaction);
 
                 account.Balance += transaction_amount;
                 Utility.PrintMessage($"{Utility.FormatAmount(transaction_amount)} has been deposited into your account.");
@@ -188,6 +209,11 @@ namespace ATM
         {
             Utility.PrintMessage("Your account has been locked.  Police are on the way.  Please stay where you are.");
             System.Environment.Exit(1);
+        }
+
+        public void InsertTransaction(Transaction transaction)
+        {
+            _transactionList.Add(transaction);
         }
     }
 }
