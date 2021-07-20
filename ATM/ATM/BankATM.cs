@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using ConsoleTables;
 
 namespace ATM
 {
@@ -13,7 +15,7 @@ namespace ATM
         private static int tries = 0;
 
         private static decimal transaction_amount;
-        private static List<Transaction> _transactionList;
+        private static List<Transaction> _transactionList = new List<Transaction>();
 
         public void Execute()
         {                
@@ -45,6 +47,7 @@ namespace ATM
                                 case (int)SecureMenu.ThirdPartyTransfer:
                                     break;
                                 case (int)SecureMenu.ViewTransactions:
+                                    ViewTransactions(selectedAccount);
                                     break;
                                 case (int)SecureMenu.Logout:
                                     Utility.PrintMessage("Sucessfully logged out.");
@@ -66,7 +69,7 @@ namespace ATM
 
         }
 
-        public void MakeWithdrawal(BankAccount selectedAccount)
+        public void MakeWithdrawal(BankAccount account)
         {
             //Ask how much money user would like to withdrawl
             transaction_amount = Utility.GetValidDecimalInput("amount to withdrawal");
@@ -87,8 +90,8 @@ namespace ATM
                     //Create transaction record
                     var newTransaction = new Transaction()
                     {
-                        BankAccountNoFrom = selectedAccount.AccountNumber,
-                        BankAccountNoTo = selectedAccount.AccountNumber,
+                        BankAccountNoFrom = account.AccountNumber,
+                        BankAccountNoTo = account.AccountNumber,
                         TransactionDate = DateTime.Now,
                         TransactionAmount = transaction_amount,
                         TypeOfTransaction = Transaction.TransactionType.Withdrawal
@@ -121,8 +124,8 @@ namespace ATM
                 //Create transaction record
                 var newTransaction = new Transaction()
                 {
-                    BankAccountNoFrom = selectedAccount.AccountNumber,
-                    BankAccountNoTo = selectedAccount.AccountNumber,
+                    BankAccountNoFrom = account.AccountNumber,
+                    BankAccountNoTo = account.AccountNumber,
                     TransactionDate = DateTime.Now,
                     TransactionAmount = transaction_amount,
                     TypeOfTransaction = Transaction.TransactionType.Deposit
@@ -194,6 +197,8 @@ namespace ATM
         //Create accounts
         public void Initialization()
         {
+            transaction_amount = 0; 
+
             _accountList = new List<BankAccount>
             {
                 new BankAccount() {UserName = "Charlie Charleston", AccountNumber = 1234567890, CardNumber = 123, PinNumber = 1111, Balance = 1000000},
@@ -214,6 +219,26 @@ namespace ATM
         public void InsertTransaction(Transaction transaction)
         {
             _transactionList.Add(transaction);
+        }
+
+        public void ViewTransactions(BankAccount bankAccount)
+        {
+            if(_transactionList.Count < 0)
+            {
+                Utility.PrintMessage($"There are no transactions yet.");
+            }
+            else
+            {
+                var table = new ConsoleTable("Type", "From", "To", "Amount " + ATMMenu.cur, "Transaction Date");
+
+                foreach(var tran in _transactionList)
+                {
+                    table.AddRow(tran.TypeOfTransaction, tran.BankAccountNoFrom, tran.BankAccountNoTo, tran.TransactionAmount, tran.TransactionDate);
+                }
+                table.Options.EnableCount = false;
+                table.Write();
+                Utility.PrintMessage($"You have performed {_transactionList.Count} transactions.");
+            }
         }
     }
 }

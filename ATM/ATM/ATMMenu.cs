@@ -17,6 +17,7 @@ namespace ATM
     }
     public static class ATMMenu
     {
+        internal static string cur = "RM ";
         //Display various menus
         public static void DisplayMenu1()
         {
