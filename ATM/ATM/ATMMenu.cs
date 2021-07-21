@@ -36,7 +36,7 @@ namespace ATM
         {
             Console.Clear();
             Console.WriteLine(" ---------------------------");
-            Console.WriteLine("| Meybank ATM Secure Menu    |");
+            Console.WriteLine("| FakeBank ATM Secure Menu   |");
             Console.WriteLine("|                            |");
             Console.WriteLine("| 1. Balance Enquiry         |");
             Console.WriteLine("| 2. Cash Deposit            |");
